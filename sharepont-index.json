@@ -1,1 +1,285 @@
-
+{
+	"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"logicapp_name": {
+			"defaultValue": "AOAIinTeams",
+			"type": "string"
+		},
+		"location": {
+			"defaultValue": "[resourceGroup().location]",
+			"type": "string"
+		},
+        "aisearch_endpoint": {
+            "type": "string"
+        },
+        "aisearch_apikey": {
+            "type": "string"
+        }
+	},
+	"variables": {},
+	"resources": [
+		{
+            "definition": {
+                "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                "contentVersion": "1.0.0.0",
+                "triggers": {
+                    "When_a_HTTP_request_is_received": {
+                        "type": "Request",
+                        "kind": "Http"
+                    }
+                },
+                "actions": {
+                    "Delay": {
+                        "runAfter": {
+                            "データソース作成": [
+                                "Succeeded"
+                            ]
+                        },
+                        "type": "Wait",
+                        "inputs": {
+                            "interval": {
+                                "count": 30,
+                                "unit": "Second"
+                            }
+                        }
+                    },
+                    "Delay-copy": {
+                        "runAfter": {
+                            "インデックス作成": [
+                                "Succeeded"
+                            ]
+                        },
+                        "type": "Wait",
+                        "inputs": {
+                            "interval": {
+                                "count": 30,
+                                "unit": "Second"
+                            }
+                        }
+                    },
+                    "データソース作成": {
+                        "runAfter": {},
+                        "type": "Http",
+                        "inputs": {
+                            "uri": "[parameters('aisearch_endpoint')]/datasources?api-version=2023-10-01-Preview",
+                            "method": "POST",
+                            "headers": {
+                                "Content-Type": "application/json",
+                                "api-key": "[parameters('aisearch_apikey')]"
+                            },
+                            "body": {
+                                "name": "dev-shunsuke-datasouse-20250321",
+                                "type": "sharepoint",
+                                "credentials": {
+                                    "connectionString": "xxx"
+                                },
+                                "container": {
+                                    "name": "useQuery",
+                                    "query": "includeLibrary="
+                                }
+                            }
+                        },
+                        "runtimeConfiguration": {
+                            "contentTransfer": {
+                                "transferMode": "Chunked"
+                            }
+                        }
+                    },
+                    "インデックス作成": {
+                        "runAfter": {
+                            "Delay": [
+                                "Succeeded"
+                            ]
+                        },
+                        "type": "Http",
+                        "inputs": {
+                            "uri": "[parameters('aisearch_endpoint')]/indexes?api-version=2024-05-01-preview",
+                            "method": "POST",
+                            "headers": {
+                                "Content-Type": "application/json",
+                                "api-key": "[parameters('aisearch_apikey')]"
+                            },
+                            "body": {
+                                "name": "dev-shunsuke-index-20250321",
+                                "fields": [
+                                    {
+                                        "name": "id",
+                                        "type": "Edm.String",
+                                        "key": true,
+                                        "searchable": true,
+                                        "analyzer": "keyword",
+                                        "sortable": true
+                                    },
+                                    {
+                                        "name": "metadata_spo_site_id",
+                                        "type": "Edm.String",
+                                        "key": false,
+                                        "searchable": true,
+                                        "filterable": false,
+                                        "sortable": false,
+                                        "facetable": false
+                                    },
+                                    {
+                                        "name": "metadata_spo_library_id",
+                                        "type": "Edm.String",
+                                        "key": false,
+                                        "searchable": true,
+                                        "filterable": false,
+                                        "sortable": false,
+                                        "facetable": false
+                                    },
+                                    {
+                                        "name": "metadata_spo_item_id",
+                                        "type": "Edm.String",
+                                        "key": false,
+                                        "searchable": true,
+                                        "filterable": true,
+                                        "sortable": false,
+                                        "facetable": false
+                                    },
+                                    {
+                                        "name": "metadata_spo_item_name",
+                                        "type": "Edm.String",
+                                        "key": false,
+                                        "searchable": true,
+                                        "filterable": false,
+                                        "sortable": false,
+                                        "facetable": false
+                                    },
+                                    {
+                                        "name": "metadata_spo_item_content_type",
+                                        "type": "Edm.String",
+                                        "key": false,
+                                        "searchable": false,
+                                        "filterable": true,
+                                        "sortable": false,
+                                        "facetable": true
+                                    },
+                                    {
+                                        "name": "metadata_spo_item_extension",
+                                        "type": "Edm.String",
+                                        "key": false,
+                                        "searchable": false,
+                                        "filterable": true,
+                                        "sortable": false,
+                                        "facetable": true
+                                    },
+                                    {
+                                        "name": "metadata_spo_item_last_modified",
+                                        "type": "Edm.DateTimeOffset",
+                                        "key": false,
+                                        "searchable": false,
+                                        "filterable": false,
+                                        "sortable": true,
+                                        "facetable": false
+                                    },
+                                    {
+                                        "name": "metadata_spo_item_size",
+                                        "type": "Edm.Int64",
+                                        "key": false,
+                                        "searchable": false,
+                                        "filterable": false,
+                                        "sortable": false,
+                                        "facetable": false
+                                    },
+                                    {
+                                        "name": "metadata_spo_item_path",
+                                        "type": "Edm.String",
+                                        "key": false,
+                                        "searchable": false,
+                                        "filterable": false,
+                                        "sortable": false,
+                                        "facetable": false
+                                    },
+                                    {
+                                        "name": "metadata_spo_item_weburi",
+                                        "type": "Edm.String",
+                                        "key": false,
+                                        "searchable": false,
+                                        "filterable": false,
+                                        "sortable": false,
+                                        "facetable": false
+                                    },
+                                    {
+                                        "name": "content",
+                                        "type": "Edm.String",
+                                        "searchable": true,
+                                        "filterable": false,
+                                        "sortable": false,
+                                        "facetable": false
+                                    }
+                                ]
+                            }
+                        },
+                        "runtimeConfiguration": {
+                            "contentTransfer": {
+                                "transferMode": "Chunked"
+                            }
+                        }
+                    },
+                    "インデクサー作成": {
+                        "runAfter": {
+                            "Delay-copy": [
+                                "Succeeded"
+                            ]
+                        },
+                        "type": "Http",
+                        "inputs": {
+                            "uri": "[parameters('aisearch_endpoint')]/indexers?api-version=2023-10-01-Preview",
+                            "method": "POST",
+                            "headers": {
+                                "Content-Type": "application/json",
+                                "api-key": "[parameters('aisearch_apikey')]"
+                            },
+                            "body": {
+                                "name": "dev-shunsuke-indexer-20250321",
+                                "dataSourceName": "dev-shunsuke-datasouse-20250321",
+                                "targetIndexName": "dev-shunsuke-index-20250321",
+                                "parameters": {
+                                    "batchSize": null,
+                                    "maxFailedItems": null,
+                                    "maxFailedItemsPerBatch": null,
+                                    "base64EncodeKeys": null,
+                                    "configuration": {
+                                        "indexedFileNameExtensions": ".pdf",
+                                        "excludedFileNameExtensions": ".png, .jpg",
+                                        "dataToExtract": "contentAndMetadata"
+                                    }
+                                },
+                                "schedule": {},
+                                "fieldMappings": [
+                                    {
+                                        "sourceFieldName": "metadata_spo_site_library_item_id",
+                                        "targetFieldName": "id",
+                                        "mappingFunction": {
+                                            "name": "base64Encode"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "runtimeConfiguration": {
+                            "contentTransfer": {
+                                "transferMode": "Chunked"
+                            }
+                        }
+                    }
+                },
+                "outputs": {},
+                "parameters": {
+                    "$connections": {
+                        "type": "Object",
+                        "defaultValue": {}
+                    }
+                }
+            },
+            "parameters": {
+                "$connections": {
+                    "type": "Object",
+                    "value": {}
+                }
+            }
+        }
+	]
+}
