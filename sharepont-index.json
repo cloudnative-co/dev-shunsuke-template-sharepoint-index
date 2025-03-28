@@ -11,30 +11,39 @@
 			"type": "string"
 		},
         "aisearch_endpoint": {
+            "defaultValue": "https://<リソース名>.search.windows.net",
             "type": "string"
         },
         "aisearch_apikey": {
+            "defaultValue": "設定＞キー＞プライマリ管理者キー",
             "type": "string"
         },
         "aisearch_index_name": {
+            "defaultValue": "作成したいインデックス名",
             "type": "string"
         },
         "aisearch_indexer_name": {
+            "defaultValue": "作成したいインデクサー名",
             "type": "string"
         },
         "aisearch_datasource_name": {
+            "defaultValue": "作成したいデータソース名",
             "type": "string"
         },
         "application_id": {
+            "defaultValue": "SharePoint Online のアプリケーション ID",
             "type": "string"
         },
         "application_secret": {
+            "defaultValue": "SharePoint Online のアプリケーション シークレット",
             "type": "string"
         },
         "sharepoint_domain": {
+            "defaultValue": "SharePoint Online のドメイン名",
             "type": "string"
         },
         "sharepoint_site": {
+            "defaultValue": "https://<ドメイン名>.sharepoint.com/sites/<サイト名>/Shared%20Documents/Forms/AllItems.aspx",
             "type": "string"
         }
 	},
@@ -134,51 +143,54 @@
                                         {
                                             "name": "id",
                                             "type": "Edm.String",
-                                            "key": true,
                                             "searchable": true,
+                                            "filterable": false,
+                                            "retrievable": true,
+                                            "sortable": true,
+                                            "facetable": false,
+                                            "key": true,
                                             "analyzer": "keyword",
-                                            "sortable": true
+                                            "synonymMaps": []
                                         },
                                         {
                                             "name": "metadata_spo_site_id",
                                             "type": "Edm.String",
-                                            "key": false,
                                             "searchable": true,
                                             "filterable": false,
                                             "sortable": false,
-                                            "facetable": false
+                                            "facetable": false,
+                                            "analyzer": "ja.lucene"
                                         },
                                         {
                                             "name": "metadata_spo_library_id",
                                             "type": "Edm.String",
-                                            "key": false,
                                             "searchable": true,
                                             "filterable": false,
                                             "sortable": false,
-                                            "facetable": false
+                                            "facetable": false,
+                                            "analyzer": "ja.lucene"
                                         },
                                         {
                                             "name": "metadata_spo_item_id",
                                             "type": "Edm.String",
-                                            "key": false,
                                             "searchable": true,
                                             "filterable": true,
                                             "sortable": false,
-                                            "facetable": false
+                                            "facetable": false,
+                                            "analyzer": "ja.lucene"
                                         },
                                         {
                                             "name": "metadata_spo_item_name",
                                             "type": "Edm.String",
-                                            "key": false,
                                             "searchable": true,
                                             "filterable": false,
                                             "sortable": false,
-                                            "facetable": false
+                                            "facetable": false,
+                                            "analyzer": "ja.lucene"
                                         },
                                         {
                                             "name": "metadata_spo_item_content_type",
                                             "type": "Edm.String",
-                                            "key": false,
                                             "searchable": false,
                                             "filterable": true,
                                             "sortable": false,
@@ -187,7 +199,6 @@
                                         {
                                             "name": "metadata_spo_item_extension",
                                             "type": "Edm.String",
-                                            "key": false,
                                             "searchable": false,
                                             "filterable": true,
                                             "sortable": false,
@@ -196,7 +207,6 @@
                                         {
                                             "name": "metadata_spo_item_last_modified",
                                             "type": "Edm.DateTimeOffset",
-                                            "key": false,
                                             "searchable": false,
                                             "filterable": false,
                                             "sortable": true,
@@ -205,7 +215,6 @@
                                         {
                                             "name": "metadata_spo_item_size",
                                             "type": "Edm.Int64",
-                                            "key": false,
                                             "searchable": false,
                                             "filterable": false,
                                             "sortable": false,
@@ -214,7 +223,6 @@
                                         {
                                             "name": "metadata_spo_item_path",
                                             "type": "Edm.String",
-                                            "key": false,
                                             "searchable": false,
                                             "filterable": false,
                                             "sortable": false,
@@ -223,11 +231,9 @@
                                         {
                                             "name": "metadata_spo_item_weburi",
                                             "type": "Edm.String",
-                                            "key": false,
                                             "searchable": false,
                                             "filterable": false,
-                                            "sortable": false,
-                                            "facetable": false
+                                            "sortable": false
                                         },
                                         {
                                             "name": "content",
@@ -235,9 +241,53 @@
                                             "searchable": true,
                                             "filterable": false,
                                             "sortable": false,
-                                            "facetable": false
+                                            "facetable": false,
+                                            "analyzer": "ja.lucene"
+                                        },
+                                        {
+                                            "name": "embedding",
+                                            "type": "Collection(Edm.Single)",
+                                            "searchable": true,
+                                            "filterable": false,
+                                            "retrievable": true,
+                                            "sortable": false,
+                                            "facetable": false,
+                                            "key": false,
+                                            "dimensions": 3072,
+                                            "vectorSearchProfile": "vector-profile-1743127250988",
+                                            "synonymMaps": []
+                                        },
+                                        {
+                                            "name": "textItems",
+                                            "type": "Edm.String",
+                                            "searchable": true,
+                                            "filterable": true,
+                                            "sortable": false,
+                                            "facetable": false,
+                                            "analyzer": "ja.lucene"
                                         }
-                                    ]
+                                    ],
+                                    "vectorSearch": {
+                                        "algorithms": [
+                                        {
+                                            "name": "vector-config-1743127252114",
+                                            "kind": "hnsw",
+                                            "hnswParameters": {
+                                            "metric": "cosine",
+                                            "m": 4,
+                                            "efConstruction": 400,
+                                            "efSearch": 500
+                                            }
+                                        }
+                                        ],
+                                        "profiles": [
+                                        {
+                                            "name": "vector-profile-1743127250988",
+                                            "algorithm": "vector-config-1743127252114"
+                                        }
+                                        ],
+                                        "vectorizers": []
+                                    }
                                 }
                             },
                             "runtimeConfiguration": {
