@@ -4,47 +4,68 @@
 	"parameters": {
 		"logicapp_name": {
 			"defaultValue": "AOAIinTeams",
-			"type": "string"
+			"type": "string",
+            "metadata": {
+                "description": "ロジック アプリの名前"
+            }
 		},
 		"location": {
 			"defaultValue": "[resourceGroup().location]",
 			"type": "string"
 		},
         "aisearch_endpoint": {
-            "defaultValue": "https://<リソース名>.search.windows.net",
-            "type": "string"
+            "type": "string",
+            "metadata": {
+                "description": "https://<リソース名>.search.windows.net"
+            }
         },
         "aisearch_apikey": {
-            "defaultValue": "設定＞キー＞プライマリ管理者キー",
-            "type": "string"
+            "type": "string",
+            "metadata": {
+                "description": "設定＞キー＞プライマリ管理者キー"
+            }
         },
         "aisearch_index_name": {
-            "defaultValue": "作成したいインデックス名",
-            "type": "string"
+            "type": "string",
+            "metadata": {
+                "description": "作成したいインデックス名"
+            }
         },
         "aisearch_indexer_name": {
-            "defaultValue": "作成したいインデクサー名",
-            "type": "string"
+            "type": "string",
+            "metadata": {
+                "description": "作成したいインデクサー名"
+            }
         },
         "aisearch_datasource_name": {
-            "defaultValue": "作成したいデータソース名",
-            "type": "string"
+            "type": "string",
+            "metadata": {
+                "description": "作成したいデータソース名"
+            }
         },
         "application_id": {
-            "defaultValue": "SharePoint Online のアプリケーション ID",
-            "type": "string"
+            "type": "string",
+            "metadata": {
+                "description": "SharePoint Online のアプリケーション ID"
+            }
         },
         "application_secret": {
-            "defaultValue": "SharePoint Online のアプリケーション シークレット",
-            "type": "string"
+            "type": "string",
+            "metadata": {
+                "description": "SharePoint Online のアプリケーション シークレット"
+            }
         },
         "sharepoint_domain": {
-            "defaultValue": "SharePoint Online のドメイン名",
-            "type": "string"
+            "type": "string",
+            "metadata": {
+                "description": "SharePoint Online のドメイン名"
+            }
         },
         "sharepoint_site": {
-            "defaultValue": "https://<ドメイン名>.sharepoint.com/sites/<サイト名>/Shared%20Documents/Forms/AllItems.aspx",
-            "type": "string"
+            "type": "string",
+            "metadata": {
+                "description": "https://<ドメイン名>.sharepoint.com/sites/<サイト名>/Shared%20Documents/Forms/AllItems.aspx"
+            }
         }
 	},
 	"variables": {},
