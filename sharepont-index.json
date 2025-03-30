@@ -48,7 +48,7 @@
             "metadata": {
                 "description": "セマンティック構成の名前"
             }
-        }
+        },
         "application_id": {
             "type": "string",
             "metadata": {
