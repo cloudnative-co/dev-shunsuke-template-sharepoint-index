@@ -43,6 +43,12 @@
                 "description": "作成したいデータソース名"
             }
         },
+        "semantic_name": {
+            "type": "string",
+            "metadata": {
+                "description": "セマンティック構成の名前"
+            }
+        }
         "application_id": {
             "type": "string",
             "metadata": {
@@ -288,6 +294,27 @@
                                             "analyzer": "ja.lucene"
                                         }
                                     ],
+                                    "semantic": {
+                                      "configurations": [
+                                        {
+                                          "name": "[parameters('semantic_name')]",
+                                          "prioritizedFields": {
+                                            "titleField": {
+                                              "fieldName": "metadata_spo_item_name"
+                                            },
+                                            "prioritizedContentFields": [
+                                              {
+                                                "fieldName": "content"
+                                              },
+                                              {
+                                                "fieldName": "metadata_spo_item_name"
+                                              }
+                                            ],
+                                            "prioritizedKeywordsFields": []
+                                          }
+                                        }
+                                      ]
+                                    },
                                     "vectorSearch": {
                                         "algorithms": [
                                         {
