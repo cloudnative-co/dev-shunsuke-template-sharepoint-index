@@ -43,12 +43,6 @@
                 "description": "作成したいデータソース名"
             }
         },
-        "semantic_name": {
-            "type": "string",
-            "metadata": {
-                "description": "セマンティック構成の名前"
-            }
-        },
         "application_id": {
             "type": "string",
             "metadata": {
@@ -133,14 +127,14 @@
                                     "api-key": "[parameters('aisearch_apikey')]"
                                 },
                                 "body": {
-                                    "name": "[parameters('aisearch_datasource_name')]",
+                                    "name": "@parameters('datasourceName')",
                                     "type": "sharepoint",
                                     "credentials": {
                                         "connectionString": "[concat('SharePointOnlineEndpoint=https://', parameters('sharepoint_domain'), '.sharepoint.com/;ApplicationId=', parameters('application_id'), ';ApplicationSecret=', parameters('application_secret'))]"
                                     },
                                     "container": {
                                         "name": "useQuery",
-                                        "query": "[concat('includeLibrary=', parameters('sharepoint_site'))]"
+                                        "query": "includeLibrary=@{parameters('siteURL')}"
                                     }
                                 }
                             },
@@ -165,7 +159,7 @@
                                     "api-key": "[parameters('aisearch_apikey')]"
                                 },
                                 "body": {
-                                    "name": "[parameters('aisearch_index_name')]",
+                                    "name": "@parameters('indexName')",
                                     "fields": [
                                         {
                                             "name": "id",
@@ -297,7 +291,7 @@
                                     "semantic": {
                                       "configurations": [
                                         {
-                                          "name": "[parameters('semantic_name')]",
+                                          "name": "sp-semantic-config",
                                           "prioritizedFields": {
                                             "titleField": {
                                               "fieldName": "metadata_spo_item_name"
@@ -359,9 +353,9 @@
                                     "api-key": "[parameters('aisearch_apikey')]"
                                 },
                                 "body": {
-                                    "name": "[parameters('aisearch_indexer_name')]",
-                                    "dataSourceName": "[parameters('aisearch_datasource_name')]",
-                                    "targetIndexName": "[parameters('aisearch_index_name')]",
+                                    "name": "@parameters('indexerName')",
+                                    "dataSourceName": "@parameters('datasourceName')",
+                                    "targetIndexName": "@parameters('indexName')",
                                     "parameters": {
                                         "batchSize": null,
                                         "maxFailedItems": null,
@@ -397,6 +391,22 @@
                         "$connections": {
                             "type": "Object",
                             "defaultValue": {}
+                        },
+                        "datasourceName": {
+                            "defaultValue": "[parameters('aisearch_datasource_name')]",
+                            "type": "String"
+                        },
+                        "indexName": {
+                            "defaultValue": "[parameters('aisearch_index_name')]",
+                            "type": "String"
+                        },
+                        "indexerName": {
+                            "defaultValue": "[parameters('aisearch_indexer_name')]",
+                            "type": "String"
+                        },
+                        "siteURL": {
+                            "defaultValue": "[parameters('sharepoint_site')]",
+                            "type": "String"
                         }
                     }
                 },
