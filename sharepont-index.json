@@ -43,12 +43,6 @@
                 "description": "作成したいデータソース名"
             }
         },
-        "skillset_name": {
-            "type": "string",
-            "metadata": {
-                "description": "作成したいスキルセット名"
-            }
-        },
         "application_id": {
             "type": "string",
             "metadata": {
@@ -362,7 +356,6 @@
                                     "name": "@parameters('indexerName')",
                                     "dataSourceName": "@parameters('datasourceName')",
                                     "targetIndexName": "@parameters('indexName')",
-                                    "skillsetName": "@parameters('skillName')",
                                     "parameters": {
                                         "batchSize": null,
                                         "maxFailedItems": null,
@@ -413,10 +406,6 @@
                         },
                         "siteURL": {
                             "defaultValue": "[parameters('sharepoint_site')]",
-                            "type": "String"
-                        },
-                        "skillName": {
-                            "defaultValue": "[parameters('skillset_name')]",
                             "type": "String"
                         }
                     }
